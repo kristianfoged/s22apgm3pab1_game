@@ -2,30 +2,38 @@ import sys
 ##import pyautogui
 from random import randint
 import pygame 
-#from pyrsistent import T
+import pandas as pd
+
+
+# samme bibliotek
 from gamekeeper import Gamekeeper
 from bird import Bird
+from skeet_game_config import *
 
+# import list
+df_game_rounds = pd.read_csv(r'game_rounds.csv')
+
+# import variables
 
 #define variables
-white=(250,250,250)
-default = (0,0,0)
-upper_corner_x = 0
-upper_corner_y = 0
-round_seconds_to = 1
-black=(0,0,0)
-width=1200
-height=800
-bottombarheight     =200
-bottombar_ypos      = height - bottombarheight
-clock_value         = 120
-height_playfield    = height - bottombarheight
-textobj_interval    = 50
-textobj_xpos        = 725
-textobj_targets_pos = (textobj_xpos,bottombar_ypos)
-textobj_hits_pos    = (textobj_xpos,bottombar_ypos+textobj_interval*1) 
-textobj_seconds_pos = (textobj_xpos,bottombar_ypos+textobj_interval*2) 
-textobj_score_pos   = (textobj_xpos,bottombar_ypos+textobj_interval*3) 
+##white=(250,250,250)
+##default = (0,0,0)
+##upper_corner_x = 0
+##upper_corner_y = 0
+#round_seconds_to = 1
+#black=(0,0,0)
+#width=1200
+#height=800
+#bottombarheight     =200
+#bottombar_ypos      = height - bottombarheight
+#clock_value         = 120
+#height_playfield    = height - bottombarheight
+#textobj_interval    = 50
+#textobj_xpos        = 725
+#textobj_targets_pos = (textobj_xpos,bottombar_ypos)
+#textobj_hits_pos    = (textobj_xpos,bottombar_ypos+textobj_interval*1) 
+#textobj_seconds_pos = (textobj_xpos,bottombar_ypos+textobj_interval*2) 
+#textobj_score_pos   = (textobj_xpos,bottombar_ypos+textobj_interval*3) 
 
 game_title_text = ('SUMMER GAMES 1984 SKEET SHOOTING') 
 start_command_text  = ('Press s to start')
@@ -40,11 +48,11 @@ xpos_bird=width-delta_x
 ypos_bird=height_playfield-delta_y
 
 
-xpos_skeet_blue=35
-ypos_skeet_blue=305
+xpos_skeet_blue=55
+ypos_skeet_blue=300
 speed_skeet_blue=1
-start_xpos_skeet_blue =(53)
-start_ypos_skeet_blue =(305)
+#start_xpos_skeet_blue =(56)
+#start_ypos_skeet_blue =(320)
 
 speed_bird=randint(1,4)
 
@@ -68,7 +76,7 @@ mygamekeep = Gamekeeper(1)
 bg=pygame.image.load("resources/skeet3.png")
 bar=pygame.image.load("resources/black_bar.png")
 bird=pygame.image.load("resources/bird.png")
-skeet_blue=pygame.image.load("resources/skeet_blue.png")
+skeet_blue_image=pygame.image.load("resources/skeet_blue.png")
 skeet_blue_hit=pygame.image.load("resources/skeet_blue_hit.png")
 
 skeet_red=pygame.image.load("resources/skeet_red.png")
@@ -76,15 +84,12 @@ croshair=pygame.image.load("resources/crosshair.png")
 startbut=pygame.image.load("resources/start.png")
 startscreen=pygame.image.load("resources/start_screen.png")
 
-# initialisere skeets
-skeet_blue_dict = {"xpos_blue":xpos_skeet_blue,"ypos_blue":ypos_skeet_blue,"image_blue":skeet_blue,"speed_blue":speed_skeet_blue}
-
-
+skeets_blue=[]
 
 # create rects around stuff you want to target
 croshair_rect = croshair.get_rect(center=(width/2,height/2))
 bird_rect=bird.get_rect(center=(xpos_bird,ypos_bird))
-skeet_blue_rect=bird.get_rect(center=(xpos_skeet_blue,ypos_skeet_blue))
+skeet_blue_rect=skeet_blue_image.get_rect(center=(xpos_skeet_blue/2,ypos_skeet_blue/2))
 
 #skeet_blue_rect=bird.get_rect(center=(xpos_skeet_blue,ypos_skeet_blue))
 
@@ -101,12 +106,16 @@ while True:
         pygame.quit()
         sys.exit()
     else:
+
+
+
         # start counting seconds
         if active:
             mygamekeep.modifclockticker()
+                    # initialisere skeets
         # check events with for-loop
         croshair_rect=croshair.get_rect(center = pygame.mouse.get_pos())
-       
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -121,8 +130,10 @@ while True:
                  #what should happen? - skeet blue
                 if croshair_rect.colliderect(skeet_blue_rect):
                     mygamekeep.modifhits()
-                    xpos_skeet_blue=xpos_skeet_blue
-                    ypos_skeet_blue=ypos_skeet_blue
+                    xpos_skeet_blue=-100
+                    ypos_skeet_blue=-100
+
+
             if event.type == pygame.MOUSEMOTION:
                 pass
                 ##croshair_rect=croshair.get_rect(center = event.pos)
@@ -153,12 +164,14 @@ while True:
         else :   
             bird_rect = bird.get_rect(center=(xpos_bird, ypos_bird))
             skeet_blue_rect = bird.get_rect(center=(xpos_skeet_blue, ypos_skeet_blue))
+            xpos_skeet_blue=xpos_skeet_blue+1
+            #skeet_blue_dict["xpos_blue"]=skeet_blue_dict["xpos_blue"]+skeet_blue_dict["speed_blue"]
             #put paint stuff on screen
             # put counter on screen
 
  
             screen.blit(bird,bird_rect)
-            screen.blit(skeet_blue_dict["image_blue"],skeet_blue_rect)
+            screen.blit(skeet_blue_image,skeet_blue_rect)
             screen.blit(croshair,croshair_rect)
             
         #update screen

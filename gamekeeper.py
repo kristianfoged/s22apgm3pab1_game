@@ -13,7 +13,7 @@ class Gamekeeper:
         self.round=round
         self.addround=1       
         self.addtarget=0
-        self.addhit=0
+        self.addhit=1
         self.targets=0
         self.hits=0
         self.clock_ticker=0
