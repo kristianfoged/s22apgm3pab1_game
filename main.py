@@ -11,6 +11,7 @@ black=(0,0,0)
 width=1200
 height=800
 bottombarheight=200
+clock_value = 60
 clock_counter = 0
 height_playfield = height - bottombarheight
 
@@ -55,8 +56,7 @@ active = False
 active_clock = active
 counter = 1
 level = 1
-gamedict={"counter":1,"level":0, "liv":3,"round":1,"targets":0,"hits":0,}
-second_timer={"clock_ticker":0,"clock_adapter":60}
+gamedict={"counter":1,"level":0, "liv":3,"round":1,"targets":0,"hits":0,"clock_ticker":0,}
 #start the loop
 while True:
    
@@ -104,37 +104,27 @@ while True:
                 gamedict["counter"]=1
                 gamedict["level"] = gamedict["level"] + 1
                 speed_bird=speed_bird+1
-            # hvis xpos < 0 så miste et liv
-            if (xpos_bird < 0):
-                #gamedict["liv"]=gamedict["liv"]-1
-                mygamekeep.modifliv()
-                xpos_bird=width
-                ypos_bird=randint(0,height)
             else:
                 xpos_bird=xpos_bird-speed_bird
             bird_rect = bird.get_rect(center=(xpos_bird, ypos_bird))
+           
             #put paint stuff on screen
             # put counter on screen
             #textobj=myfont.render(f'Score: {gamedict["counter"]}, level: {gamedict["level"]},liv: {gamedict["liv"]}',(0,0,0),(255,255,255))
             textobj_score=myfont.render(f'Evil score: {mygamekeep.counter}',(0,0,0),(255,255,255))
             textobj_targets=myfont.render(f'TARGETS:       {mygamekeep.targets}',(0,0,0),(255,255,255))
             textobj_hits=myfont.render(f'HITS:                {mygamekeep.hits}',(0,0,0),(255,255,255))
-            
-            screen.blit(textobj_score,(900,750))
+            textobj_seconds=myfont.render(f'Seconds:                {mygamekeep.clock_ticker}',(0,0,0),(255,255,255))
+
             screen.blit(textobj_targets,(900,600))
-            screen.blit(textobj_hits,(900,650))           
+            screen.blit(textobj_hits,(900,650)) 
+            screen.blit(textobj_seconds,(900,700))        
+            screen.blit(textobj_score,(900,750))  
             screen.blit(bird,bird_rect)
             screen.blit(croshair,croshair_rect)
             
         #update screen
         pygame.display.update()
     #tick the clock
-        clock.tick(60)
-    if active :
-            second_timer["clock_ticker"] = second_timer["clock_ticker"] + 1
-            textobj_seconds=myfont.render(f'Seconds:                {second_timer.clock_ticker}',(0,0,0),(255,255,255))
-            screen.blit(textobj_seconds,(900,700))
-    else: 
-            second_timer["clock_ticker"] = 0
-               
-    print(round((second_timer["clock_ticker"]/60),0))
+        clock.tick(clock_value)
+        print(mygamekeep.clock_ticker)
