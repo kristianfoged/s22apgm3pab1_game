@@ -5,16 +5,32 @@ import pygame
 from gamekeeper import Gamekeeper
 from bird import Bird
 
+
 #define variables
 white=(250,250,250)
 default = (0,0,0)
+upper_corner_x = 0
+upper_corner_y = 0
 round_seconds_to = 1
 black=(0,0,0)
 width=1200
 height=800
-bottombarheight=200
-clock_value = 120
-height_playfield = height - bottombarheight
+bottombarheight     =200
+bottombar_ypos      = height - bottombarheight
+clock_value         = 120
+height_playfield    = height - bottombarheight
+textobj_interval    = 50
+textobj_xpos        = 725
+textobj_targets_pos = (textobj_xpos,bottombar_ypos)
+textobj_hits_pos    = (textobj_xpos,bottombar_ypos+textobj_interval*1) 
+textobj_seconds_pos = (textobj_xpos,bottombar_ypos+textobj_interval*2) 
+textobj_score_pos   = (textobj_xpos,bottombar_ypos+textobj_interval*3) 
+
+game_title_text = ('SUMMER GAMES 1984 SKEET SHOOTING') 
+start_command_text  = ('Press s to start')
+game_over_text = ('Game over')
+textobj_start_pos =  (400,400)
+textobj_game_title_pos =  (110,100)
 
 delta_x=int(width/10)
 delta_y=int(height_playfield /10)
@@ -27,6 +43,8 @@ ypos_skeet_blue=500
 
 speed_bird=randint(1,4)
 speed_skeet_blue=1
+
+croshair_pos_round1 = (400,400)
 
 
 pygame.init()
@@ -47,10 +65,15 @@ bg=pygame.image.load("resources/skeet3.png")
 bar=pygame.image.load("resources/black_bar.png")
 bird=pygame.image.load("resources/bird.png")
 skeet_blue=pygame.image.load("resources/skeet_blue.png")
+skeet_blue_hit=pygame.image.load("resources/skeet_blue_hit.png")
+
 skeet_red=pygame.image.load("resources/skeet_red.png")
 croshair=pygame.image.load("resources/crosshair.png")
 startbut=pygame.image.load("resources/start.png")
 startscreen=pygame.image.load("resources/start_screen.png")
+
+
+
 # create rects around stuff you want to target
 
 croshair_rect = croshair.get_rect(center=(width/2,height/2))
@@ -67,9 +90,9 @@ while True:
     if mygamekeep.gameover():
         active = False
         #screen.fill(black)
-        screen.blit(startscreen,(0,0))
-        textobj_start=myfont.render(f'Game over',(0,0,0),(255,255,255))
-        screen.blit(textobj_start,(400,400))  
+        screen.blit(startscreen,(upper_corner_x,upper_corner_y))
+        textobj_start=myfont.render(game_over_text,(default),(white))
+        screen.blit(textobj_start,(textobj_start_pos))  
         pygame.quit()
         sys.exit()
     else:
@@ -77,7 +100,11 @@ while True:
         if active:
             mygamekeep.modifclockticker()
         # check events with for-loop
+            # set musens cursor på relevante skeet-station
+        pygame.mouse.set_pos(400,400)
         croshair_rect=croshair.get_rect(center = pygame.mouse.get_pos())
+       
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -96,22 +123,25 @@ while True:
                 if event.key == pygame.K_s:
                     active=not active
         #put background on screen
-        screen.blit(bg,(0,0))
-        screen.blit(bar,(0,600))
+        screen.blit(bg,(upper_corner_x,upper_corner_y))
+        screen.blit(bar,(upper_corner_x,bottombar_ypos))
         textobj_targets=myfont.render(f'TARGETS:    {mygamekeep.targets}',(default),(white))
         textobj_hits=myfont.render(f'HITS:       {mygamekeep.hits}',(default),(white))
         textobj_seconds=myfont.render(f'SECONDS:    {round((mygamekeep.clock_ticker/clock_value),round_seconds_to)}',(default),(white))
         textobj_score=myfont.render(f'Evil score: {mygamekeep.counter}',(default),(white))
-        screen.blit(textobj_targets,(700,600)) 
-        screen.blit(textobj_hits,(700,650)) 
-        screen.blit(textobj_seconds,(700,700))        
-        screen.blit(textobj_score,(700,750)) 
+        screen.blit(textobj_targets,(textobj_targets_pos)) 
+        screen.blit(textobj_hits,(textobj_hits_pos)) 
+        screen.blit(textobj_seconds,(textobj_seconds_pos))        
+        screen.blit(textobj_score,(textobj_score_pos)) 
 
+        # startskærm
         if not active:
             screen.blit(startscreen,(0,0))
-            textobj_start=myfont.render(f'Press s to start',(0,0,0),(255,255,255))
-            screen.blit(textobj_start,(400,400)) 
-           
+            
+            textobj_game_title  =myfont.render(game_title_text,(default),(white))
+            textobj_start       =myfont.render(start_command_text,(default),(white))
+            screen.blit(textobj_start,(textobj_start_pos)) 
+            screen.blit(textobj_game_title,(textobj_game_title_pos)) 
         # modify moving objects
         else :   
             bird_rect = bird.get_rect(center=(xpos_bird, ypos_bird))
@@ -125,5 +155,5 @@ while True:
         pygame.display.update()
     #tick the clock
         clock.tick(clock_value)
-        #print(gamedict["seconds"])
-      
+
+     
