@@ -4,7 +4,7 @@ from random import randint
 import pygame.transform
 
 
-class Bird():
+class Skeet():
     # attributter - egenskaber
 
     # konstruktør - jordemoder, en speciel metode
