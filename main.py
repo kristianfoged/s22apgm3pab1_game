@@ -39,11 +39,15 @@ delta_y=int(height_playfield /10)
 xpos_bird=width-delta_x
 ypos_bird=height_playfield-delta_y
 
-xpos_skeet_blue=200
-ypos_skeet_blue=500
+
+xpos_skeet_blue=35
+ypos_skeet_blue=305
+speed_skeet_blue=1
+start_xpos_skeet_blue =(53)
+start_ypos_skeet_blue =(305)
 
 speed_bird=randint(1,4)
-speed_skeet_blue=1
+
 
 croshair_pos_round1 = (400,400)
 
@@ -54,9 +58,6 @@ screen=pygame.display.set_mode((width,height))
 # font for text
 # myfont = pygame.font.SysFont("rockwellextrabold",50)
 myfont = pygame.font.SysFont("couriernew",50)
-
-# create a system cursor
-system = pygame.cursors.Cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
 
 # init clock from time
 clock=pygame.time.Clock()
@@ -75,19 +76,19 @@ croshair=pygame.image.load("resources/crosshair.png")
 startbut=pygame.image.load("resources/start.png")
 startscreen=pygame.image.load("resources/start_screen.png")
 
+# initialisere skeets
+skeet_blue_dict = {"xpos_blue":xpos_skeet_blue,"ypos_blue":ypos_skeet_blue,"image_blue":skeet_blue,"speed_blue":speed_skeet_blue}
+
 
 
 # create rects around stuff you want to target
-
 croshair_rect = croshair.get_rect(center=(width/2,height/2))
 bird_rect=bird.get_rect(center=(xpos_bird,ypos_bird))
+skeet_blue_rect=bird.get_rect(center=(xpos_skeet_blue,ypos_skeet_blue))
+
 #skeet_blue_rect=bird.get_rect(center=(xpos_skeet_blue,ypos_skeet_blue))
 
-#  create rect
 active = False
-counter = 1
-level = 1
-gamedict={"level":0, "round":1,"targets":0,"hits":0,"clock_ticker":0,"seconds":0}
 
 #start the loop
 while True:
@@ -104,21 +105,24 @@ while True:
         if active:
             mygamekeep.modifclockticker()
         # check events with for-loop
-
         croshair_rect=croshair.get_rect(center = pygame.mouse.get_pos())
        
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                #what should happen?
+                #what should happen? - bird
                 if croshair_rect.colliderect(bird_rect):
                     mygamekeep.modifscore()
                     xpos_bird=width
                     # random ypos for bird
                     ypos_bird=randint(0,height_playfield)
+                 #what should happen? - skeet blue
+                if croshair_rect.colliderect(skeet_blue_rect):
+                    mygamekeep.modifhits()
+                    xpos_skeet_blue=xpos_skeet_blue
+                    ypos_skeet_blue=ypos_skeet_blue
             if event.type == pygame.MOUSEMOTION:
                 pass
                 ##croshair_rect=croshair.get_rect(center = event.pos)
@@ -148,15 +152,18 @@ while True:
         # modify moving objects
         else :   
             bird_rect = bird.get_rect(center=(xpos_bird, ypos_bird))
+            skeet_blue_rect = bird.get_rect(center=(xpos_skeet_blue, ypos_skeet_blue))
             #put paint stuff on screen
             # put counter on screen
+
  
             screen.blit(bird,bird_rect)
+            screen.blit(skeet_blue_dict["image_blue"],skeet_blue_rect)
             screen.blit(croshair,croshair_rect)
             
         #update screen
         pygame.display.update()
     #tick the clock
         clock.tick(clock_value)
-
+        
      
