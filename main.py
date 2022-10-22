@@ -1,6 +1,7 @@
 import sys
+##import pyautogui
 from random import randint
-import pygame
+import pygame 
 #from pyrsistent import T
 from gamekeeper import Gamekeeper
 from bird import Bird
@@ -54,6 +55,8 @@ screen=pygame.display.set_mode((width,height))
 # myfont = pygame.font.SysFont("rockwellextrabold",50)
 myfont = pygame.font.SysFont("couriernew",50)
 
+# create a system cursor
+system = pygame.cursors.Cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
 
 # init clock from time
 clock=pygame.time.Clock()
@@ -85,6 +88,7 @@ active = False
 counter = 1
 level = 1
 gamedict={"level":0, "round":1,"targets":0,"hits":0,"clock_ticker":0,"seconds":0}
+
 #start the loop
 while True:
     if mygamekeep.gameover():
@@ -100,8 +104,7 @@ while True:
         if active:
             mygamekeep.modifclockticker()
         # check events with for-loop
-            # set musens cursor på relevante skeet-station
-        pygame.mouse.set_pos(400,400)
+
         croshair_rect=croshair.get_rect(center = pygame.mouse.get_pos())
        
 
@@ -118,7 +121,7 @@ while True:
                     ypos_bird=randint(0,height_playfield)
             if event.type == pygame.MOUSEMOTION:
                 pass
-                #croshair_rect=croshair.get_rect(center = event.pos)
+                ##croshair_rect=croshair.get_rect(center = event.pos)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     active=not active
