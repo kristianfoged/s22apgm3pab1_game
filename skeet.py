@@ -3,45 +3,25 @@ from random import randint
 
 import pygame.transform
 
-
 class Skeet():
     # attributter - egenskaber
-
+#Skeet_blue;Skeet_red;Position;Target_sum
     # konstruktør - jordemoder, en speciel metode
     # bird = {"xpos": xpos, "ypos": ypos, "link": link_bird, "counter": counter, "name": "test", "speed": speed}
-    def __init__(self,xpos,ypos,link,name,speed,direction,widthbounce):
-        self.xpos=xpos
-        self.ypos=ypos
-        self.link=link
-        self.name=name
-        self.speed=speed
-        self.direction=direction
-        self.widthbounce=widthbounce
+    def __init__(self,xpos_skeet,ypos_skeet,skeet_col,image_skeet,speed_skeet):
+        self.xpos_skeet = xpos_skeet
+        self.ypos_skeet = ypos_skeet
+        self.skeet_col = skeet_col 
+        self.image_skeet = image_skeet
+        self.speed_skeet = speed_skeet
     # metoder - handlinger
     # standard inventory: Getters and Setters
 
-    def SetXpos(self,xpos):
-        self.xpos=xpos
+    def SetXpos(self,xpos_skeet):
+        self.xpos_skeet=xpos_skeet
 
-    def SetYpos(self,ypos):
-        self.ypos=ypos
-
-    def move(self):
-        if self.xpos >= 0 and self.xpos <= self.widthbounce:
-            self.direction=self.direction*-1
-            self.xpos = self.xpos - self.speed
-        # sjov flaskende
-        #self.xpos=self.xpos-np.sin(self.ypos*0.6)-((randint(1,4))/4)
-        # jævn flok
-        #self.xpos = self.xpos - np.sin(self.speed * 0.6) - ((randint(1, 4)) / 4)
-        # test1
-        #self.xpos = self.xpos - np.sin(self.speed * ((randint(1, 4)) / 4)) - ((randint(1, 4)) / 4)
-
-        # test2
-        #self.xpos=self.xpos-np.sin(self.ypos*((randint(1, 4)) / 4))-((randint(1,4))/4)
-
-    def moveup(self):
-         self.ypos=self.ypos-+np.sin((self.xpos*0.7))
+    def SetYpos(self,ypos_skeet):
+        self.ypos_skeet=ypos_skeet
 
     def blitme(self, screen):
-        screen.blit(self.link, (self.xpos,self.ypos))
+        screen.blit(self.link, (self.xpos_skeet,self.ypos_skeet))

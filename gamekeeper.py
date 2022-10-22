@@ -40,6 +40,6 @@ class Gamekeeper:
 
     def gameover(self):
         retval=False
-        if self.round == 10:
+        if self.round == 20:
             retval=True
         return(retval)
