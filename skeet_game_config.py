@@ -5,6 +5,8 @@ white=(250,250,250)
 default = (0,0,0)
 upper_corner_x = 0
 upper_corner_y = 0
+waiting_posx = -1
+waiting_posy = -1
 round_seconds_to = 1
 get_rect_divisor = 2
 shots_counter_divisor = 2
@@ -16,14 +18,18 @@ bottombar_ypos      = height - bottombarheight
 clock_value         = 60
 height_playfield    = height - bottombarheight
 textobj_interval    = 50
-textobj_xpos        = 700
-textobj_targets_pos = (textobj_xpos,bottombar_ypos)
-textobj_hits_pos    = (textobj_xpos,bottombar_ypos+textobj_interval*1) 
-textobj_seconds_pos = (textobj_xpos,bottombar_ypos+textobj_interval*2) 
+textobj_xpos1        = 100
+textobj_xpos2        = 700
 
-textobj_round_pos       = (180,bottombar_ypos)
-textobj_shots_pos       = (180,bottombar_ypos+textobj_interval*1)
-textobj_countdown_pos   = (180,bottombar_ypos+textobj_interval*2)
+textobj_round_pos           = (textobj_xpos1,bottombar_ypos)
+textobj_shots_pos           = (textobj_xpos1,bottombar_ypos+textobj_interval*1)
+textobj_countdown_pos       = (textobj_xpos1,bottombar_ypos+textobj_interval*2)
+textobj_shot_aviable_pos    = (textobj_xpos1,bottombar_ypos+textobj_interval*3)
+
+textobj_targets_pos = (textobj_xpos2,bottombar_ypos)
+textobj_hits_pos    = (textobj_xpos2,bottombar_ypos+textobj_interval*1) 
+textobj_seconds_pos = (textobj_xpos2,bottombar_ypos+textobj_interval*2) 
+
 
 
 
@@ -45,12 +51,14 @@ start_xpos_skeet_blue = (55)
 start_ypos_skeet_blue = (300)
 xpos_skeet_blue= 55
 ypos_skeet_blue= 300
+start_xpos_skeet_red = (1151)
+start_ypos_skeet_red = (330)
 xpos_skeet_red=1151
 ypos_skeet_red=330
-speed_skeet=1
-speed_skeet_blue=1
-speed_skeet_red=1
-starting_round = 1
+speed_skeet=4
+speed_skeet_blue=4
+speed_skeet_red=4
+starting_round = 0
 
 # init load images
 bg=pygame.image.load("resources/skeet3.png")
