@@ -25,6 +25,7 @@ class Gamekeeper:
         self.round_countdown_starter = 100
         self.blue_skeet_active = 0
         self.red_skeet_active = 0
+        self.dummy_skeet_active = 0
         self.shots_aviable=0
         self.addshots_aviable=1
 
@@ -60,6 +61,9 @@ class Gamekeeper:
     def modifstarting_red(self):
         self.red_skeet_active = 1
 
+    def modifstarting_dummy(self):
+        self.dummy_skeet_active = 1
+
     def modif_startingshots(self):
         self.shots_aviable = 2
 
@@ -68,6 +72,9 @@ class Gamekeeper:
 
     def modifterminating_red(self):
         self.red_skeet_active = 0
+
+    def modifterminating_dummy(self):
+        self.dummy_skeet_active = 0       
 
     def modifshots(self):
         self.shots = self.shots + self.addshots
@@ -83,6 +90,29 @@ class Gamekeeper:
     # tager løbende tid af klokken
     def modifrunningcountdown(self):
         self.round_countdown = self.round_countdown - (self.clock_ticker)
+
+    def modifnewgame(self):
+        self.level=0
+        self.addlevel=1
+        self.counter=1
+        self.factor=-1
+        self.round=round
+        self.addround=1       
+        self.addhit=1
+        self.targets=0
+        self.addtarget=2
+        self.shots=0
+        self.addshots=1
+        self.hits=0
+        self.clock_ticker=0
+        self.add_clock_tick=1
+        self.round_countdown = 0
+        self.round_countdown_starter = 100
+        self.blue_skeet_active = 0
+        self.red_skeet_active = 0
+        self.shots_aviable=0
+        self.addshots_aviable=1
+
     
     def to_main(self):
         if self.shots == 5:

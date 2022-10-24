@@ -25,6 +25,8 @@ waiting_posx = -1
 waiting_posy = -1
 out_of_sight_posx_left = -200
 out_of_sight_posx_right = width + 200
+out_of_sight_posx_right_dummy = width*2
+
 # lerduernes bane er et 2grads polinomie f(x) = ax2 + bx + c 
 # konstantleddet leveres via udgangspunktet, som er tårnenes højde, hvilket kommer fra flowet
 flight_power  = 2
@@ -66,10 +68,15 @@ start_xpos_skeet_red = (1151)
 start_ypos_skeet_red = (330)
 xpos_skeet_red=1151
 ypos_skeet_red=330
-speed_skeet=6
-speed_skeet_blue=4
-speed_skeet_red=4
+speed_skeet=(6)
+speed_skeet_blue=5
+speed_skeet_red=5
 starting_round = 0
+
+start_xpos_skeet_dummy = (1)
+#start_ypos_skeet_dummy = (1100)
+xpos_skeet_dummy= 1
+#ypos_skeet_dummy= 1100
 
 # init load images
 bg=pygame.image.load("resources/skeet3.png")
