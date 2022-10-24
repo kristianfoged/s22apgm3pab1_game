@@ -5,8 +5,8 @@ import pygame
 import pandas as pd
 # samme bibliotek
 from gamekeeper import Gamekeeper
-from bird import Bird
-from skeet_blue import Skeet_blue
+#from bird import Bird
+#from skeet_blue import Skeet_blue
 # importer variable
 from skeet_game_config import *
 # import list
@@ -33,7 +33,6 @@ bird_rect=bird.get_rect(center=(xpos_bird,ypos_bird))
 
 active = False
 
-
 #start the loop
 while True:
     if mygamekeep.gameover():
@@ -49,7 +48,7 @@ while True:
             mygamekeep.modifclockticker()
             
          # slutskærm
-        if mygamekeep.level == 6:
+        if mygamekeep.level == 20:
             active = False
         # check events with for-loop
         if mygamekeep.shots_aviable>=1:
@@ -97,8 +96,8 @@ while True:
                 if event.key == pygame.K_q:
                     pygame.quit()
                     sys.exit()
-        #put background on screen
 
+        #put background on screen
         screen.blit(bg,(upper_corner_x,upper_corner_y))
         screen.blit(bar,(upper_corner_x,bottombar_ypos))
         textobj_targets=myfont.render(f'TARGETS:    {mygamekeep.targets}',(default),(white))
@@ -112,7 +111,6 @@ while True:
             textobj_shots_aviable=myfont.render(f'SHOTS AVIALABLE: {round(mygamekeep.shots_aviable)}',(default),(white))
         else:
             textobj_shots_aviable=myfont.render(f'SHOTS AVIALABLE: 0',(default),(white))
-
 
         screen.blit(textobj_targets,(textobj_targets_pos)) 
         screen.blit(textobj_hits,(textobj_hits_pos)) 
@@ -133,31 +131,41 @@ while True:
             screen.blit(textobj_game_title,(textobj_game_title_pos))
             textobj_targets=myfont.render(f'TARGETS:    {mygamekeep.targets}',(default),(white))
             textobj_hits=myfont.render(f'HITS:       {mygamekeep.hits}',(default),(white))
-            screen.blit(textobj_targets,(textobj_targets_pos)) 
-            screen.blit(textobj_hits,(textobj_hits_pos)) 
             
         # modify moving objects
         else :   
             bird_rect = bird.get_rect(center=(xpos_bird, ypos_bird))
             skeet_red_rect = skeet_red_image.get_rect(center=(xpos_skeet_red, ypos_skeet_red))
             skeet_blue_rect = skeet_blue_image.get_rect(center=(xpos_skeet_blue, ypos_skeet_blue))
-            #skeet_blue_rect = skeet_blue_image.get_rect(center=(xpos_skeet_blue, ypos_skeet_blue))
-            #put paint stuff on screen
+        
+        #put paint stuff on screen
             xpos_bird=xpos_bird-speed_bird
+
             xpos_skeet_red = xpos_skeet_red - speed_skeet_red
-            ypos_skeet_red = ypos_skeet_red - speed_skeet_red*0.2
+            ypos_skeet_red = ypos_skeet_red -  (pow((start_xpos_skeet_red - xpos_skeet_red),2)*flight_red_a) - flight_red_b
 
             xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue
-            ypos_skeet_blue = ypos_skeet_blue - speed_skeet_blue*0.15
+            ypos_skeet_blue = ypos_skeet_blue - (pow((start_xpos_skeet_blue - xpos_skeet_blue),2)*flight_blue_a) - flight_blue_b
 
-            if xpos_skeet_blue > width:
+            if xpos_skeet_blue > out_of_sight_posx_right:
                 mygamekeep.modifterminating_blue()
-            if xpos_skeet_red < upper_corner_x:
+            if xpos_skeet_red < out_of_sight_posx_left:
                 mygamekeep.modifterminating_red()            
             
             if mygamekeep.shots_aviable>=1:
                 screen.blit(croshair,croshair_rect)
+
+            # blitter før gendannelse for at få lerduen væk før pause
+            if mygamekeep.blue_skeet_active == 1:
+                screen.blit(skeet_blue_image,skeet_blue_rect)
+            if mygamekeep.red_skeet_active == 1:
+                screen.blit(skeet_red_image,skeet_red_rect)
+            if mygamekeep.shots_aviable>=1:
+                screen.blit(croshair,croshair_rect)
+
+
             if (mygamekeep.blue_skeet_active+mygamekeep.red_skeet_active) == 0:
+                pygame.time.wait(2000)
                 speed_skeet_blue = speed_skeet
                 xpos_skeet_blue = start_xpos_skeet_blue
                 ypos_skeet_blue = start_ypos_skeet_blue
@@ -174,15 +182,12 @@ while True:
                 mygamekeep.modiflevel()
                 mygamekeep.modiftargets()
                 mygamekeep.modif_startingshots()
+                
                 #if mygamekeep.targets == 26:
             # blit
             screen.blit(bird,bird_rect)
-            if mygamekeep.blue_skeet_active == 1:
-                screen.blit(skeet_blue_image,skeet_blue_rect)
-            if mygamekeep.red_skeet_active == 1:
-                screen.blit(skeet_red_image,skeet_red_rect)
-            if mygamekeep.shots_aviable>=1:
-                screen.blit(croshair,croshair_rect)
+
+
         #update screen
         pygame.display.update()
     #tick the clock

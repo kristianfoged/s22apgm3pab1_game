@@ -1,12 +1,5 @@
 import pygame
-font_size = 50
-font_name = "couriernew"
-white=(250,250,250)
-default = (0,0,0)
-upper_corner_x = 0
-upper_corner_y = 0
-waiting_posx = -1
-waiting_posy = -1
+
 round_seconds_to = 1
 get_rect_divisor = 2
 shots_counter_divisor = 2
@@ -21,6 +14,27 @@ textobj_interval    = 50
 textobj_xpos1        = 100
 textobj_xpos2        = 700
 
+
+font_size = 50
+font_name = "couriernew"
+white=(250,250,250)
+default = (0,0,0)
+upper_corner_x = 0
+upper_corner_y = 0
+waiting_posx = -1
+waiting_posy = -1
+out_of_sight_posx_left = -200
+out_of_sight_posx_right = width + 200
+# lerduernes bane er et 2grads polinomie f(x) = ax2 + bx + c 
+# konstantleddet leveres via udgangspunktet, som er tårnenes højde, hvilket kommer fra flowet
+flight_power  = 2
+flight_red_a  = -0.0000015 # lerduen falder når den kommer længere frem
+flight_red_b  = 1.9 # rød har en stigende bane
+flight_blue_a = -0.0000015
+flight_blue_b = 0.8 # blå har en flad bane
+
+
+
 textobj_round_pos           = (textobj_xpos1,bottombar_ypos)
 textobj_shots_pos           = (textobj_xpos1,bottombar_ypos+textobj_interval*1)
 textobj_countdown_pos       = (textobj_xpos1,bottombar_ypos+textobj_interval*2)
@@ -29,9 +43,6 @@ textobj_shot_aviable_pos    = (textobj_xpos1,bottombar_ypos+textobj_interval*3)
 textobj_targets_pos = (textobj_xpos2,bottombar_ypos)
 textobj_hits_pos    = (textobj_xpos2,bottombar_ypos+textobj_interval*1) 
 textobj_seconds_pos = (textobj_xpos2,bottombar_ypos+textobj_interval*2) 
-
-
-
 
 game_title_text = ('SUMMER GAMES 1984 SKEET SHOOTING') 
 start_command_text  = ('Press s to start')
@@ -55,7 +66,7 @@ start_xpos_skeet_red = (1151)
 start_ypos_skeet_red = (330)
 xpos_skeet_red=1151
 ypos_skeet_red=330
-speed_skeet=4
+speed_skeet=6
 speed_skeet_blue=4
 speed_skeet_red=4
 starting_round = 0
@@ -70,4 +81,3 @@ skeet_red_image=pygame.image.load("resources/skeet_red.png")
 croshair=pygame.image.load("resources/crosshair.png")
 startbut=pygame.image.load("resources/start.png")
 startscreen=pygame.image.load("resources/start_screen.png")
-
