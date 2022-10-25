@@ -1,5 +1,8 @@
 import pygame
 
+
+no_of_targets = 3
+no_of_rounds = 4
 round_seconds_to = 1
 get_rect_divisor = 2
 shots_counter_divisor = 2
@@ -25,7 +28,7 @@ waiting_posx = -1
 waiting_posy = -1
 out_of_sight_posx_left = -200
 out_of_sight_posx_right = width + 200
-out_of_sight_posx_right_dummy = width*2
+out_of_sight_posx_right_dummy = width*1.7
 
 # lerduernes bane er et 2grads polinomie f(x) = ax2 + bx + c 
 # konstantleddet leveres via udgangspunktet, som er tårnenes højde, hvilket kommer fra flowet
@@ -51,14 +54,19 @@ start_command_text  = ('Press s to start')
 quit_command_text  = ('Press q to quit')
 game_over_text = ('Game over')
 
-textobj_start_pos =  (400,400)
-textobj_quit_pos =  (400,600)
+# Placering af elementer på start/slutskæmr
 textobj_game_title_pos =  (110,100)
+textobj_start_pos =  (400,250)
+textobj_quit_pos =  (400,350)
+textobj_endscore_targets_pos =  (400,500)
+textobj_endscore_hits_pos =  (400,600)
+
+
 delta_x=int(width/10)
 delta_y=int(height_playfield /10)
 xpos_bird=width-delta_x
 ypos_bird=height_playfield-delta_y
-
+speed_bird=3
 # faste positioner på de to skeet-tårne
 start_xpos_skeet_blue = (55)
 start_ypos_skeet_blue = (300)

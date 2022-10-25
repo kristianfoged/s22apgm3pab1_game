@@ -13,7 +13,7 @@ from skeet_game_config import *
 df_game_rounds = pd.read_csv(r'game_rounds.txt')
 df_shooting_position = pd.read_csv(r'shooting_positions.txt')
 
-speed_bird=3
+
 
 pygame.init()
 #set screen
@@ -46,7 +46,7 @@ while True:
             mygamekeep.modifclockticker()
             
          # slutskærm
-        if mygamekeep.level == 20:
+        if mygamekeep.level == no_of_rounds:
             active = False
         # check events with for-loop
         if mygamekeep.shots_aviable>=1:
@@ -90,7 +90,8 @@ while True:
                 ##croshair_rect=croshair.get_rect(center = event.pos)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    active=not active
+                   # active= not active
+                    active= True
                     mygamekeep.modifnewgame()
                 if event.key == pygame.K_q:
                     pygame.quit()
@@ -119,37 +120,44 @@ while True:
         screen.blit(textobj_countdown,(textobj_countdown_pos)) 
         screen.blit(textobj_shots_aviable,(textobj_shot_aviable_pos)) 
 
-        # startskærm
+        # startskærm / slutskærm
         if not active:
             screen.blit(startscreen,(upper_corner_x,upper_corner_y))
             textobj_game_title  =myfont.render(game_title_text,(default),(white))
             textobj_start       =myfont.render(start_command_text,(default),(white))
             textobj_quit       =myfont.render(quit_command_text,(default),(white))
+            textobj_targets2=myfont.render(f'TARGETS:    {mygamekeep.targets-mygamekeep.blue_skeet_active-mygamekeep.red_skeet_active}',(default),(white))
+            textobj_hits2=myfont.render(f'HITS:       {mygamekeep.hits}',(default),(white))
+            screen.blit(textobj_game_title,(textobj_game_title_pos))
             screen.blit(textobj_start,(textobj_start_pos)) 
             screen.blit(textobj_quit,(textobj_quit_pos)) 
-            screen.blit(textobj_game_title,(textobj_game_title_pos))
-            textobj_targets=myfont.render(f'TARGETS:    {mygamekeep.targets}',(default),(white))
-            textobj_hits=myfont.render(f'HITS:       {mygamekeep.hits}',(default),(white))
-            
+            if mygamekeep.level == no_of_rounds:
+                screen.blit(textobj_targets2,(textobj_endscore_targets_pos ))
+                screen.blit(textobj_hits2,(textobj_endscore_hits_pos))
+
+
         # modify moving objects
         else :   
+            #definition af rektangelerne der udgøres af billederne af fugl og skeets
             bird_rect = bird.get_rect(center=(xpos_bird, ypos_bird))
             skeet_red_rect = skeet_red_image.get_rect(center=(xpos_skeet_red, ypos_skeet_red))
             skeet_blue_rect = skeet_blue_image.get_rect(center=(xpos_skeet_blue, ypos_skeet_blue))
         
         #put paint stuff on screen
-            xpos_bird=xpos_bird-speed_bird
-
             
+            xpos_bird=xpos_bird-speed_bird           
+            # dummy-skeet flyver uden at kunne rammes og styrer derfor tiden i hver runde
             xpos_skeet_dummy = xpos_skeet_dummy + speed_skeet
-            print(xpos_skeet_dummy)
 
+            # red skeet flyter fra højre mod venstre. Flyvebanen er defineret i config
             xpos_skeet_red = xpos_skeet_red - speed_skeet_red
             ypos_skeet_red = ypos_skeet_red -  (pow((start_xpos_skeet_red - xpos_skeet_red),2)*flight_red_a) - flight_red_b
 
+            # blå skeet flyter fra venstre mod højre. Flyvebanen er defineret i config
             xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue
             ypos_skeet_blue = ypos_skeet_blue - (pow((start_xpos_skeet_blue - xpos_skeet_blue),2)*flight_blue_a) - flight_blue_b
 
+            # skeets "dør" når de kommer uden for billede - hvis de ikke allerede er blevet ramt
             if xpos_skeet_blue > out_of_sight_posx_right:
                 mygamekeep.modifterminating_blue()
             if xpos_skeet_red < out_of_sight_posx_left:
@@ -157,11 +165,8 @@ while True:
             if xpos_skeet_dummy > out_of_sight_posx_right_dummy:
                 mygamekeep.modifterminating_dummy()  
 
-
-            
-
+            # når alle skeets er "døde" starter ny runde
             if (mygamekeep.blue_skeet_active+mygamekeep.red_skeet_active+mygamekeep.dummy_skeet_active) == 0:
-                
                 
                 speed_skeet_blue = speed_skeet
                 xpos_skeet_blue = start_xpos_skeet_blue
@@ -176,24 +181,21 @@ while True:
                 
                 xpos_skeet_dummy = start_xpos_skeet_dummy
                 mygamekeep.modifstarting_dummy()
-
                 mygamekeep.modifstarting_red()
                 mygamekeep.modifroundcountdown()
                 mygamekeep.modiflevel()
                 mygamekeep.modiftargets()
                 mygamekeep.modif_startingshots()
                 
-                #if mygamekeep.targets == 26:
+                
             # blit
             screen.blit(bird,bird_rect)
-
-
+            # skeets tegnes kun når de er aktive
             if mygamekeep.blue_skeet_active == 1:
                 screen.blit(skeet_blue_image,skeet_blue_rect)
             if mygamekeep.red_skeet_active == 1:
                 screen.blit(skeet_red_image,skeet_red_rect)
-            if mygamekeep.shots_aviable>=1:
-                screen.blit(croshair,croshair_rect)
+            # sigtekort tegnes kun, hvis der er skud til rådighed
             if mygamekeep.shots_aviable>=1:
                 screen.blit(croshair,croshair_rect)
         #update screen

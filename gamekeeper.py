@@ -120,6 +120,6 @@ class Gamekeeper:
 
     def gameover(self):
         retval=False
-        if self.round == 12:
+        if self.round == 27:
             retval=True
         return(retval)
