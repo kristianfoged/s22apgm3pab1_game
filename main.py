@@ -3,11 +3,11 @@ import sys
 from random import randint
 import pygame 
 import pandas as pd
+import numpy as np
+
+
 # samme bibliotek
 from gamekeeper import Gamekeeper
-#from bird import Bird
-#from skeet_blue import Skeet_blue
-# importer variable
 from skeet_game_config import *
 # import list
 df_game_rounds = pd.read_csv(r'game_rounds.txt')
@@ -103,9 +103,9 @@ while True:
         textobj_targets=myfont.render(f'TARGETS:    {mygamekeep.targets}',(default),(white))
         textobj_hits=myfont.render(f'HITS:       {mygamekeep.hits}',(default),(white))
         textobj_seconds=myfont.render(f'SECONDS:    {round((mygamekeep.clock_ticker/clock_value),round_seconds_to)}',(default),(white))
-        textobj_shots=myfont.render(f'SHOTS USED:  {round((mygamekeep.shots/shots_counter_divisor))}',(default),(white))
+        #textobj_shots=myfont.render(f'SHOTS USED:  {round((mygamekeep.shots/shots_counter_divisor))}',(default),(white))
         textobj_round=myfont.render(f'ROUND:      {mygamekeep.level}',(default),(white))
-        textobj_countdown=myfont.render(f'COUNTDOWN:  {round(mygamekeep.round_countdown)}',(default),(white))
+        #textobj_countdown=myfont.render(f'COUNTDOWN:  {round(mygamekeep.round_countdown)}',(default),(white))
         
         if mygamekeep.shots_aviable >=0:
             textobj_shots_aviable=myfont.render(f'SHOTS AVIALABLE: {round(mygamekeep.shots_aviable)}',(default),(white))
@@ -115,9 +115,9 @@ while True:
         screen.blit(textobj_targets,(textobj_targets_pos)) 
         screen.blit(textobj_hits,(textobj_hits_pos)) 
         screen.blit(textobj_seconds,(textobj_seconds_pos))        
-        screen.blit(textobj_shots,(textobj_shots_pos)) 
+        #screen.blit(textobj_shots,(textobj_shots_pos)) 
         screen.blit(textobj_round,(textobj_round_pos)) 
-        screen.blit(textobj_countdown,(textobj_countdown_pos)) 
+        #screen.blit(textobj_countdown,(textobj_countdown_pos)) 
         screen.blit(textobj_shots_aviable,(textobj_shot_aviable_pos)) 
 
         # startskærm / slutskærm
@@ -145,7 +145,12 @@ while True:
         
         #put paint stuff on screen
             
-            xpos_bird=xpos_bird-speed_bird           
+            xpos_bird=xpos_bird-speed_bird 
+            xpos_bird = xpos_bird - speed_bird 
+            ypos_bird = ypos_bird - np.sin((xpos_bird*0.7))
+             
+
+
             # dummy-skeet flyver uden at kunne rammes og styrer derfor tiden i hver runde
             xpos_skeet_dummy = xpos_skeet_dummy + speed_skeet
 
@@ -154,7 +159,6 @@ while True:
             flight_blue_a_rand = ((randint(flight_blue_a_low,flight_blue_a_high))/flight_a_divisor)
             flight_red_b_rand = ((randint(flight_red_b_low,flight_red_b_high))/flight_b_divisor)
             flight_blue_b_rand = ((randint(flight_blue_b_low,flight_blue_b_high))/flight_b_divisor)
-
 
             # red skeet flyter fra højre mod venstre. Flyvebanen er defineret i config
             xpos_skeet_red = xpos_skeet_red - speed_skeet_red
@@ -173,28 +177,35 @@ while True:
                 mygamekeep.modifterminating_dummy()  
 
             # når alle skeets er "døde" starter ny runde
-            if (mygamekeep.blue_skeet_active+mygamekeep.red_skeet_active+mygamekeep.dummy_skeet_active) == 0:
+            if (mygamekeep.blue_skeet_active+mygamekeep.red_skeet_active+mygamekeep.dummy_skeet_active) == zero_value:
                 
-                speed_skeet_blue = speed_skeet
-                xpos_skeet_blue = start_xpos_skeet_blue
-                ypos_skeet_blue = start_ypos_skeet_blue
-                xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue      
-                mygamekeep.modifstarting_blue()
+                # blue
+                #if (mygamekeep.level in (1,2,3,5,6,8,9,11,13,14,16,17,19)):
+                if (mygamekeep.level in (rounds_where_blue_active)):          # runde-listen bør hentes fra fil         
+                    speed_skeet_blue = speed_skeet # får fart igen, da den har stået stille uden for skærmen
+                    xpos_skeet_blue = start_xpos_skeet_blue # sætte tilbage til huset den afskydes fra 
+                    ypos_skeet_blue = start_ypos_skeet_blue # do
+                    #xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue    # sætte igang med at flyve  
+                    mygamekeep.modifstarting_blue()
 
-                speed_skeet_red = speed_skeet
-                xpos_skeet_red = start_xpos_skeet_red
-                ypos_skeet_red = start_ypos_skeet_red
-                xpos_skeet_red = xpos_skeet_red + speed_skeet_red
+                # red
+                if (mygamekeep.level in rounds_where_red_active): ## skal tilpasses
+                    speed_skeet_red = speed_skeet
+                    xpos_skeet_red = start_xpos_skeet_red
+                    ypos_skeet_red = start_ypos_skeet_red
+                    #xpos_skeet_red = xpos_skeet_red + speed_skeet_red
+                    mygamekeep.modifstarting_red()
                 
-                xpos_skeet_dummy = start_xpos_skeet_dummy
+                # dummy
+                xpos_skeet_dummy = start_xpos_skeet_dummy              
                 mygamekeep.modifstarting_dummy()
-                mygamekeep.modifstarting_red()
+                
+                # generel
                 mygamekeep.modifroundcountdown()
                 mygamekeep.modiflevel()
-                mygamekeep.modiftargets()
-                mygamekeep.modif_startingshots()
-                
-                
+                #mygamekeep.modiftargets()
+                #mygamekeep.modif_startingshots()
+
             # blit
             screen.blit(bird,bird_rect)
             # skeets tegnes kun når de er aktive

@@ -2,7 +2,10 @@ import pygame
 
 
 no_of_targets = 3
-no_of_rounds = 4
+no_of_rounds = 7
+rounds_where_blue_active = (1,2,3,5,6,8,9,11,13,14,16,17,19)
+rounds_where_red_active = (2,4,5,7,8,10,12,13,15,16,17,18)
+
 round_seconds_to = 1
 get_rect_divisor = 2
 shots_counter_divisor = 2
@@ -28,7 +31,7 @@ waiting_posx = -1
 waiting_posy = -1
 out_of_sight_posx_left = -200
 out_of_sight_posx_right = width + 200
-out_of_sight_posx_right_dummy = width*1.7
+out_of_sight_posx_right_dummy = width*1.3
 
 # lerduernes bane er et 2grads polinomie f(x) = ax2 + bx + c 
 # konstantleddet leveres via udgangspunktet, som er tårnenes højde, hvilket kommer fra flowet
@@ -51,8 +54,6 @@ flight_red_b  = 1.9 # rød har en stigende bane
 flight_blue_a = -0.0000015
 flight_blue_b = 0.8 # blå har en flad bane
 
-
-
 textobj_round_pos           = (textobj_xpos1,bottombar_ypos)
 textobj_shots_pos           = (textobj_xpos1,bottombar_ypos+textobj_interval*1)
 textobj_countdown_pos       = (textobj_xpos1,bottombar_ypos+textobj_interval*2)
@@ -63,8 +64,8 @@ textobj_hits_pos    = (textobj_xpos2,bottombar_ypos+textobj_interval*1)
 textobj_seconds_pos = (textobj_xpos2,bottombar_ypos+textobj_interval*2) 
 
 game_title_text = ('SUMMER GAMES 1984 SKEET SHOOTING') 
-start_command_text  = ('Press s to start')
-quit_command_text  = ('Press q to quit')
+start_command_text  = ('PRESS S TO START')
+quit_command_text  = ('PRESS Q TO QUIT')
 game_over_text = ('Game over')
 
 # Placering af elementer på start/slutskæmr
@@ -78,8 +79,8 @@ textobj_endscore_hits_pos =  (400,600)
 delta_x=int(width/10)
 delta_y=int(height_playfield /10)
 xpos_bird=width-delta_x
-ypos_bird=height_playfield-delta_y
-speed_bird=3
+ypos_bird=200
+speed_bird=1.3
 # faste positioner på de to skeet-tårne
 start_xpos_skeet_blue = (55)
 start_ypos_skeet_blue = (300)
@@ -112,4 +113,4 @@ startscreen=pygame.image.load("resources/start_screen.png")
 
 # values for gamekeeper
 
-zero_value = 0
+zero_value = (0)

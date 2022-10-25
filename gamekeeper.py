@@ -11,7 +11,7 @@ class Gamekeeper:
     # clock_ticker
 
     def __init__(self,round):
-        self.level=0
+        self.level=1
         self.addlevel=1
         self.counter=1
         self.factor=-1
@@ -29,7 +29,7 @@ class Gamekeeper:
         self.round_countdown_starter = 100
         self.blue_skeet_active = 0
         self.red_skeet_active = 0
-        self.dummy_skeet_active = 0
+        self.dummy_skeet_active = 1
         self.shots_aviable=0
         self.addshots_aviable=1
 
@@ -38,12 +38,14 @@ class Gamekeeper:
 
     def modiflevel(self):
         self.level = self.level + self.addlevel
-
+        self.shots_aviable = zero_value  # ubrugte skud fra før nulstilles
+        self.shots_aviable = self.blue_skeet_active + self.red_skeet_active ## man få nye skud efter hvor mange skeet der er aktive - dvs med i runden
+        self.targets = self.targets + self.blue_skeet_active + self.red_skeet_active
     def modifround(self):
         self.round = self.round + self.addround
 
-    def modiftargets(self):
-        self.targets = self.targets + self.addtarget
+ #   def modiftargets(self):
+   #     self.targets = self.targets + self.addtarget
 
     def modifhits(self):
         self.hits = self.hits + self.addhit 
@@ -68,9 +70,6 @@ class Gamekeeper:
     def modifstarting_dummy(self):
         self.dummy_skeet_active = 1
 
-    def modif_startingshots(self):
-        self.shots_aviable = 2
-
     def modifterminating_blue(self):
         self.blue_skeet_active = 0
 
@@ -83,6 +82,10 @@ class Gamekeeper:
     def modifshots(self):
         self.shots = self.shots + self.addshots
         self.shots_aviable = self.shots_aviable - self.addshots_aviable/2
+
+    #def modif_startingshots(self):
+     #   self.shots_aviable = 2
+
 
     def modifclockticker(self):
         self.clock_ticker = self.clock_ticker + self.add_clock_tick
