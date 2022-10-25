@@ -149,13 +149,20 @@ while True:
             # dummy-skeet flyver uden at kunne rammes og styrer derfor tiden i hver runde
             xpos_skeet_dummy = xpos_skeet_dummy + speed_skeet
 
+            # der ændres lidt på flyvebanen for skeets hver gang
+            flight_red_a_rand = ((randint(flight_red_a_low,flight_red_a_high))/flight_a_divisor)
+            flight_blue_a_rand = ((randint(flight_blue_a_low,flight_blue_a_high))/flight_a_divisor)
+            flight_red_b_rand = ((randint(flight_red_b_low,flight_red_b_high))/flight_b_divisor)
+            flight_blue_b_rand = ((randint(flight_blue_b_low,flight_blue_b_high))/flight_b_divisor)
+
+
             # red skeet flyter fra højre mod venstre. Flyvebanen er defineret i config
             xpos_skeet_red = xpos_skeet_red - speed_skeet_red
-            ypos_skeet_red = ypos_skeet_red -  (pow((start_xpos_skeet_red - xpos_skeet_red),2)*flight_red_a) - flight_red_b
+            ypos_skeet_red = ypos_skeet_red -  (pow((start_xpos_skeet_red - xpos_skeet_red),2)*flight_red_a_rand) - flight_red_b_rand
 
             # blå skeet flyter fra venstre mod højre. Flyvebanen er defineret i config
             xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue
-            ypos_skeet_blue = ypos_skeet_blue - (pow((start_xpos_skeet_blue - xpos_skeet_blue),2)*flight_blue_a) - flight_blue_b
+            ypos_skeet_blue = ypos_skeet_blue - (pow((start_xpos_skeet_blue - xpos_skeet_blue),2)*flight_blue_a_rand) - flight_blue_b_rand
 
             # skeets "dør" når de kommer uden for billede - hvis de ikke allerede er blevet ramt
             if xpos_skeet_blue > out_of_sight_posx_right:

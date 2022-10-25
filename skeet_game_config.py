@@ -33,6 +33,19 @@ out_of_sight_posx_right_dummy = width*1.7
 # lerduernes bane er et 2grads polinomie f(x) = ax2 + bx + c 
 # konstantleddet leveres via udgangspunktet, som er tårnenes højde, hvilket kommer fra flowet
 flight_power  = 2
+
+flight_red_a_high = 21
+flight_red_a_low = 15
+flight_blue_a_high = 20
+flight_blue_a_low = 14
+flight_a_divisor = -10000000
+
+flight_red_b_high = 21
+flight_red_b_low = 17
+flight_blue_b_high = 9
+flight_blue_b_low = 7
+flight_b_divisor = 10
+
 flight_red_a  = -0.0000015 # lerduen falder når den kommer længere frem
 flight_red_b  = 1.9 # rød har en stigende bane
 flight_blue_a = -0.0000015
@@ -94,5 +107,9 @@ skeet_blue_image=pygame.image.load("resources/skeet_blue.png")
 skeet_blue_hit=pygame.image.load("resources/skeet_blue_hit.png")
 skeet_red_image=pygame.image.load("resources/skeet_red.png")
 croshair=pygame.image.load("resources/crosshair.png")
-startbut=pygame.image.load("resources/start.png")
+#startbut=pygame.image.load("resources/start.png")
 startscreen=pygame.image.load("resources/start_screen.png")
+
+# values for gamekeeper
+
+zero_value = 0

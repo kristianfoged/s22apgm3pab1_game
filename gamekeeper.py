@@ -1,3 +1,7 @@
+
+from skeet_game_config import *
+
+
 class Gamekeeper:
     # level
     # counter
@@ -120,6 +124,6 @@ class Gamekeeper:
 
     def gameover(self):
         retval=False
-        if self.round == 27:
+        if self.round == no_of_rounds+1:
             retval=True
         return(retval)

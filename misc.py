@@ -2,20 +2,20 @@ import sys
 import pygame
 import pandas as pd
 
-df_game_rounds = pd.read_csv(r'game_rounds.csv')
-df_shooting_position = pd.read_csv(r'shooting_positions.csv')
+#df_game_rounds = pd.read_csv(r'game_rounds.csv')
+#df_shooting_position = pd.read_csv(r'shooting_positions.csv')
 #print(df_game_rounds)
 #print(pygame.font.get_fonts())
 #print(df_shooting_position)
 
 
 # https://www.geeksforgeeks.org/load-csv-data-into-list-and-dictionary-using-python/
-import csv
+#import csv
  
-filename ="game_rounds.txt"
+#filename ="game_rounds.txt"
  
-name = input("ENTER NAME: ")
-print({name})
+#name = input("ENTER NAME: ")
+#print({name})
 
 # opening the file using "with"
 # statement
@@ -26,10 +26,16 @@ print({name})
 
 from csv import DictReader
 # open file in read mode
-with open("game_rounds.txt", 'r') as f:
+#with open("game_rounds.txt", 'r') as f:
      
-    dict_reader = DictReader(f)
+    #dict_reader = DictReader(f)
      
-    list_of_dict = list(dict_reader)
+   # list_of_dict = list(dict_reader)
    
-    print(list_of_dict)
+   # print(list_of_dict)
+
+print(19 / 10000000)
+
+#x = range(15, 19)
+##for n in x:
+ # print(n)
