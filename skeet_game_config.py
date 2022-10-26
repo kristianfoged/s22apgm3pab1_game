@@ -1,11 +1,10 @@
 import pygame
 
-
 no_of_targets = 3
-no_of_rounds = 7
+no_of_rounds = 21
 rounds_where_blue_active = (1,2,3,5,6,8,9,11,13,14,16,17,19)
 rounds_where_red_active = (2,4,5,7,8,10,12,13,15,16,17,18)
-
+round_compensate = -1
 round_seconds_to = 1
 get_rect_divisor = 2
 shots_counter_divisor = 2
@@ -19,7 +18,6 @@ height_playfield    = height - bottombarheight
 textobj_interval    = 50
 textobj_xpos1        = 100
 textobj_xpos2        = 700
-
 
 font_size = 50
 font_name = "couriernew"
@@ -55,9 +53,9 @@ flight_blue_a = -0.0000015
 flight_blue_b = 0.8 # blå har en flad bane
 
 textobj_round_pos           = (textobj_xpos1,bottombar_ypos)
-textobj_shots_pos           = (textobj_xpos1,bottombar_ypos+textobj_interval*1)
+textobj_shots_pos           = (textobj_xpos1,bottombar_ypos+textobj_interval*3)
 textobj_countdown_pos       = (textobj_xpos1,bottombar_ypos+textobj_interval*2)
-textobj_shot_aviable_pos    = (textobj_xpos1,bottombar_ypos+textobj_interval*3)
+textobj_shot_aviable_pos    = (textobj_xpos1,bottombar_ypos+textobj_interval*1)
 
 textobj_targets_pos = (textobj_xpos2,bottombar_ypos)
 textobj_hits_pos    = (textobj_xpos2,bottombar_ypos+textobj_interval*1) 

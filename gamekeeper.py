@@ -11,15 +11,15 @@ class Gamekeeper:
     # clock_ticker
 
     def __init__(self,round):
-        self.level=1
+        self.level=0
         self.addlevel=1
         self.counter=1
         self.factor=-1
-        self.round=round
+        self.round = 0
         self.addround=1       
         self.addhit=1
         self.targets=0
-        self.addtarget=2
+        #self.addtarget=2
         self.shots=0
         self.addshots=1
         self.hits=0
@@ -29,7 +29,7 @@ class Gamekeeper:
         self.round_countdown_starter = 100
         self.blue_skeet_active = 0
         self.red_skeet_active = 0
-        self.dummy_skeet_active = 1
+        self.dummy_skeet_active = 0
         self.shots_aviable=0
         self.addshots_aviable=1
 
@@ -41,6 +41,7 @@ class Gamekeeper:
         self.shots_aviable = zero_value  # ubrugte skud fra før nulstilles
         self.shots_aviable = self.blue_skeet_active + self.red_skeet_active ## man få nye skud efter hvor mange skeet der er aktive - dvs med i runden
         self.targets = self.targets + self.blue_skeet_active + self.red_skeet_active
+
     def modifround(self):
         self.round = self.round + self.addround
 
@@ -49,17 +50,17 @@ class Gamekeeper:
 
     def modifhits(self):
         self.hits = self.hits + self.addhit 
-        self.round_countdown = self.round_countdown_starter/2 # genstart tælleren ved hit
+    #    self.round_countdown = self.round_countdown_starter/2 # genstart tælleren ved hit
 
     def modifhits_blue(self):
         self.hits = self.hits + self.addhit 
         self.blue_skeet_active = 0
-        self.round_countdown = self.round_countdown_starter/2 # genstart tælleren ved hit
+    #    self.round_countdown = self.round_countdown_starter/2 # genstart tælleren ved hit
 
     def modifhits_red(self):
         self.hits = self.hits + self.addhit 
         self.red_skeet_active = 0
-        self.round_countdown = self.round_countdown_starter/2 # genstart tælleren ved hit
+   #     self.round_countdown = self.round_countdown_starter/2 # genstart tælleren ved hit
 
     def modifstarting_blue(self):
         self.blue_skeet_active = 1
@@ -99,7 +100,7 @@ class Gamekeeper:
         self.round_countdown = self.round_countdown - (self.clock_ticker)
 
     def modifnewgame(self):
-        self.level=0
+        self.level=1
         self.addlevel=1
         self.counter=1
         self.factor=-1
@@ -120,7 +121,6 @@ class Gamekeeper:
         self.shots_aviable=0
         self.addshots_aviable=1
 
-    
     def to_main(self):
         if self.shots == 5:
             active = False

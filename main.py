@@ -67,7 +67,7 @@ while True:
                 if croshair_rect.colliderect(skeet_blue_rect):
                     mygamekeep.modifhits_blue()
                     mygamekeep.modifshots()
-                    mygamekeep.modifroundcountdown()
+                    #mygamekeep.modifroundcountdown()
                     mygamekeep.modifterminating_blue()
                     xpos_skeet_blue= waiting_posx
                     ypos_skeet_blue = waiting_posy
@@ -78,7 +78,7 @@ while True:
                 if croshair_rect.colliderect(skeet_red_rect):
                     mygamekeep.modifhits_red()
                     mygamekeep.modifshots()
-                    mygamekeep.modifroundcountdown()
+                    #mygamekeep.modifroundcountdown()
                     mygamekeep.modifterminating_red()
                     xpos_skeet_red = waiting_posx
                     ypos_skeet_red = waiting_posy
@@ -103,8 +103,8 @@ while True:
         textobj_targets=myfont.render(f'TARGETS:    {mygamekeep.targets}',(default),(white))
         textobj_hits=myfont.render(f'HITS:       {mygamekeep.hits}',(default),(white))
         textobj_seconds=myfont.render(f'SECONDS:    {round((mygamekeep.clock_ticker/clock_value),round_seconds_to)}',(default),(white))
-        #textobj_shots=myfont.render(f'SHOTS USED:  {round((mygamekeep.shots/shots_counter_divisor))}',(default),(white))
-        textobj_round=myfont.render(f'ROUND:      {mygamekeep.level}',(default),(white))
+        textobj_shots=myfont.render(f'SHOTS USED:  {mygamekeep.round}',(default),(white))
+        textobj_round=myfont.render(f'ROUND:      {mygamekeep.level-round_compensate}',(default),(white))
         #textobj_countdown=myfont.render(f'COUNTDOWN:  {round(mygamekeep.round_countdown)}',(default),(white))
         
         if mygamekeep.shots_aviable >=0:
@@ -149,10 +149,9 @@ while True:
             xpos_bird = xpos_bird - speed_bird 
             ypos_bird = ypos_bird - np.sin((xpos_bird*0.7))
              
-
-
             # dummy-skeet flyver uden at kunne rammes og styrer derfor tiden i hver runde
-            xpos_skeet_dummy = xpos_skeet_dummy + speed_skeet
+            if mygamekeep.dummy_skeet_active == 1:
+                xpos_skeet_dummy = xpos_skeet_dummy + speed_skeet
 
             # der ændres lidt på flyvebanen for skeets hver gang
             flight_red_a_rand = ((randint(flight_red_a_low,flight_red_a_high))/flight_a_divisor)
@@ -161,12 +160,14 @@ while True:
             flight_blue_b_rand = ((randint(flight_blue_b_low,flight_blue_b_high))/flight_b_divisor)
 
             # red skeet flyter fra højre mod venstre. Flyvebanen er defineret i config
-            xpos_skeet_red = xpos_skeet_red - speed_skeet_red
-            ypos_skeet_red = ypos_skeet_red -  (pow((start_xpos_skeet_red - xpos_skeet_red),2)*flight_red_a_rand) - flight_red_b_rand
+            if mygamekeep.red_skeet_active == 1:
+                xpos_skeet_red = xpos_skeet_red - speed_skeet_red
+                ypos_skeet_red = ypos_skeet_red -  (pow((start_xpos_skeet_red - xpos_skeet_red),2)*flight_red_a_rand) - flight_red_b_rand
 
             # blå skeet flyter fra venstre mod højre. Flyvebanen er defineret i config
-            xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue
-            ypos_skeet_blue = ypos_skeet_blue - (pow((start_xpos_skeet_blue - xpos_skeet_blue),2)*flight_blue_a_rand) - flight_blue_b_rand
+            if mygamekeep.blue_skeet_active == 1:
+                xpos_skeet_blue = xpos_skeet_blue + speed_skeet_blue
+                ypos_skeet_blue = ypos_skeet_blue - (pow((start_xpos_skeet_blue - xpos_skeet_blue),2)*flight_blue_a_rand) - flight_blue_b_rand
 
             # skeets "dør" når de kommer uden for billede - hvis de ikke allerede er blevet ramt
             if xpos_skeet_blue > out_of_sight_posx_right:
@@ -178,7 +179,7 @@ while True:
 
             # når alle skeets er "døde" starter ny runde
             if (mygamekeep.blue_skeet_active+mygamekeep.red_skeet_active+mygamekeep.dummy_skeet_active) == zero_value:
-                
+
                 # blue
                 #if (mygamekeep.level in (1,2,3,5,6,8,9,11,13,14,16,17,19)):
                 if (mygamekeep.level in (rounds_where_blue_active)):          # runde-listen bør hentes fra fil         
@@ -189,7 +190,7 @@ while True:
                     mygamekeep.modifstarting_blue()
 
                 # red
-                if (mygamekeep.level in rounds_where_red_active): ## skal tilpasses
+                if (mygamekeep.level in rounds_where_red_active):
                     speed_skeet_red = speed_skeet
                     xpos_skeet_red = start_xpos_skeet_red
                     ypos_skeet_red = start_ypos_skeet_red
@@ -201,8 +202,9 @@ while True:
                 mygamekeep.modifstarting_dummy()
                 
                 # generel
-                mygamekeep.modifroundcountdown()
+                #mygamekeep.modifroundcountdown()
                 mygamekeep.modiflevel()
+             
                 #mygamekeep.modiftargets()
                 #mygamekeep.modif_startingshots()
 
